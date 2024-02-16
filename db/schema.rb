@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_15_185237) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_16_160335) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_15_185237) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "bookings", force: :cascade do |t|
+    t.date "start_date"
+    t.date "ending_date"
+    t.float "total_price"
+    t.string "status", default: "pending"
+    t.bigint "shop_id", null: false
+    t.bigint "renter_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["renter_id"], name: "index_bookings_on_renter_id"
+    t.index ["shop_id"], name: "index_bookings_on_shop_id"
+  end
+
   create_table "shops", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -71,5 +84,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_15_185237) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "bookings", "shops"
+  add_foreign_key "bookings", "users", column: "renter_id"
   add_foreign_key "shops", "users", column: "owner_id"
 end
