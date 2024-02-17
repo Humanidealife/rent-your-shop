@@ -1,0 +1,101 @@
+<div class="container">
+  <h1 class="mt-3">Mon profil</h1>
+  <div class="row">
+    <div class="col-md-4">
+      <ul class="list-group">
+        <div class="row">
+          <div class="col-md-8">
+            <h5>Mes boutiques</h5>
+          </div>
+          <div class="col-md-4 text-end">
+            <%= link_to new_owner_shop_path, class: "blue" do %>
+              <i class="fa-solid fa-plus fa-lg" style="color: #00a6cf;"></i>
+            <% end %>
+          </div>
+        </div>
+        <div class="border-top"></div>
+        <% @shops.where(owner: current_user).each do |shop| %>
+          <li class="list-group-item">
+            <div style="display: flex; align-items: center;">
+            <%= cl_image_tag shop.photos.first.key, style: "width: 30px; height: 30px; margin-right: 10px; border-radius: 50%" %>
+            <%= link_to shop.name, shop_path(shop) %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="col-md-8">
+      <h3>En cours de validation</h3>
+        <% if @user_bookings.present?%>
+        <p> Le propriétaire validera bientôt votre réservation</p>
+          <div class="cards">
+            <% @user_bookings.each do |booking| %>
+              <%= link_to shop_path(booking.shop), class: "text-decoration-none", style: "color: inherit" do %>
+                <div class="card-product">
+                    <%= cl_image_tag booking.shop.photos.first.key %>
+                  <div class="card-product-infos">
+                    <h4><%= booking.shop.name %></h4>
+                    <p><%= truncate(booking.shop.description, length:50) %></p>
+                    <%= booking.start_date.strftime("%d %B") %> - <%= booking.ending_date.strftime("%d %B") %>
+                    <% number_of_days = booking.ending_date - booking.start_date %>
+                    <% total_price = booking.shop.price_per_day * number_of_days %>
+                    <p><%= total_price %> €</p>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        <% else %>
+          <p>Oups! Aucune réservation trouvée.</p>
+        <% end %>
+
+      <h3>Validés</h3>
+
+      <div class="cards">
+        <% if @validate_bookings.present?%>
+          <% @validate_bookings.each do |booking| %>
+            <%= link_to shop_path(booking.shop), class: "text-decoration-none", style: "color: inherit" do %>
+              <div class="card-product">
+                <%= cl_image_tag booking.shop.photos.first.key %>
+                <div class="card-product-infos">
+                  <h4><%= booking.shop.name %></h4>
+                  <p><%= booking.shop.description %></p>
+                  <%= booking.start_date.strftime("%d %B") %> - <%= booking.ending_date.strftime("%d %B") %>
+                  <% number_of_days = booking.ending_date - booking.start_date %>
+                  <% total_price = booking.shop.price_per_day * number_of_days %>
+                  <p><%= total_price %> €</p>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        <% else %>
+          <p>Oups! Aucune réservation trouvée.</p>
+        <% end %>
+      </div>
+
+      <div class="border-top"></div>
+
+        <h3>En attente de validation</h3>
+          <p>Ces poissons demandent à être loués, veuillez accepter ou refuser la location.</p>
+        <div class="cards">
+        <% @incoming_bookings.each do |booking| %>
+          <div class="card-product">
+            <%= cl_image_tag booking.shop.photos.first.key %>
+              <div class="card-product-infos">
+                <h4><%= booking.shop.name %></h4>
+                <p><%= booking.start_date.strftime("%d %B") %> - <%= booking.ending_date.strftime("%d %B") %></p>
+                <% number_of_days = booking.ending_date - booking.start_date %>
+                <% total_price = booking.shop.price_per_day * number_of_days %>
+                <p><%= total_price %> €</p>
+                <div style="position:relative;left:200px">
+                  <%= link_to "Accepter", accept_owner_booking_path(booking), data: {turbo_method: :patch}, class: "btn btn-light"%>
+                  <%= link_to "Décliner", decline_owner_booking_path(booking), data: {turbo_method: :patch}, class: "btn btn-light"%>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+    </div>
+  </div>
+</div>

@@ -1,2 +1,22 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="center m-4">
+<h1 class="center mt-3">Ici retrouvez la boutique qui vous inspire !</h1>
+
+<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(https://images.unsplash.com/photo-1578507065211-1c4e99a5fd24?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);">
+  <div class="container">
+    <h1>Goldfish app vous propose <strong>des poissons</strong> pour <strong>tous les types de films</strong>!</h1>
+
+    <p>Faites un carton au box-office avec nos poissons célèbres.</p>
+    <p>Découvrez des poissons inconnus du grand public pour vos films d'auteur.
+    Connus ou non, nos poissons sont des professionnels.</p>
+  <% if user_signed_in? %>
+  <div class="mt-5">
+    <%= link_to "Voir les poissons", sharks_path, class: "button-frozen mt-5", id:"btn-top"  %>
+  </div>
+    <% else %>
+    <%= link_to "S'inscrire", new_user_session_path, class: "button-frozen", id:"btn-top"  %>
+    <%= link_to "Se connecter", user_session_path, class: "button-contour" %>
+    <% end %>
+    </div>
+</div>
+
+</div>

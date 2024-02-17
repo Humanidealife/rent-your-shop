@@ -1,0 +1,55 @@
+<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
+  <div class="container-fluid ">
+    <%= link_to "/", class: "navbar-brand" do %>
+     <i class="fa-solid fa-fish-fins"></i>
+    <% end %>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto">
+        <% if user_signed_in? %>
+        <div class="flex" >
+          <li class="nav-item active">
+          <div class="search_box">
+            <div class="search">
+              <div class= "select_area">
+                <i class="fas fa-map-marker-alt map_icon"></i>
+                <div class="text"> Partout </div>
+              </div>
+
+              <div class="line"></div>
+
+              <div class = "text_and-icon">
+                <input type="text" class="search_text" id="search_text" placeholder="Chercher un poisson">
+                      <i class="fas fa-search search_icon"></i>
+              </div>
+            </div>
+            </div>
+
+          </div>
+          </li>
+          <li class="nav-item active">
+            <%= link_to "Home", "/", class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Fishes", sharks_path, class: "nav-link" %>
+          </li>
+          <div class="btn-nav">
+            <li class="nav-item dropdown">
+            <i class="fa-solid fa-bars" style="color: #6b6b6b;"></i>
+              <%= image_tag "https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <%= link_to "Gérer mes réservations", owner_dashboards_path, class: "dropdown-item" %>
+                <%= link_to "Gérer mes poissons", owner_dashboards_path, class: "dropdown-item" %>
+                <%= link_to "Déconnexion", destroy_user_session_path, class: "dropdown-item", data: {turbo_method: :delete} %>
+              </div>
+            </li>
+          </div>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
