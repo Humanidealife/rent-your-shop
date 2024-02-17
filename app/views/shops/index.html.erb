@@ -1,0 +1,24 @@
+<div class="container mt-3">
+<h1>Les boutiques louer</h1>
+<p>Faites votre choix parmi les propositions ci-dessous:</p>
+<div class="card-wrap cards">
+
+  <% @shops.each do | shop | %>
+    <%= link_to shop_path(shop), class:"text-decoration-none", style:"color: inherit" do %>
+      <div class="card-product">
+        <%= cl_image_tag shop.photos.first.key %>
+        <div class="card-product-infos">
+          <h2><%= shop.name %></h2>
+          <p>Bio: <%= truncate(shop.description, length:50) %></p>
+          <p id="price-per-day" style="position:relative;left:330px;"> € <%= shop.price_per_day %>/jour <p>
+          </div>
+      </div>
+      <% end %>
+    <% end %>
+</div>
+
+<div style="width: 100%; height: 400px; p-20" class="photo"
+  data-controller="map"
+  data-map-markers-value="<%= @markers.to_json %>"
+  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
+  </div>
